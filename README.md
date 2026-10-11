@@ -50,7 +50,11 @@ Where:
 * **Critical Risk ($V_I \ge 70$):** Critical saturation! Excavation deeper than **$2 - 3$ feet** risks immediate blackwater exposure[cite: 1].
 
 ---
-
+## AI Collaboration & Model Declaration
+In compliance with hackathon submission guidelines:
+- **AI Engineering Collaborator:** Gemini (Google DeepMind) was used as an AI engineering collaborator for frontend styling (Tailwind CSS), code refactoring, deterministic logic structuring, and serverless architecture documentation.
+- **AI Agent System:** The client-side JalBot AI virtual desk uses local prompt-engineered evaluation logic to answer municipal citizen queries.
+- 
 ## 🏗️ System Architecture & AWS Infrastructure
 
 ┌─────────────────────────────────────────────────────────────────────────┐
