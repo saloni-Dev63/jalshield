@@ -23,4 +23,4 @@
 
 ## 🌐 Live Deployment
 
-Hosted on AWS Amplify: `[Insert your live .amplifyapp.com URL here after deployment]`
+Hosted on AWS Amplify: 
