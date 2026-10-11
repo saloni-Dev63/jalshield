@@ -3,143 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JalShield - Urban Waterlogging & Septic Risk Assessor</title>
+  <title>JalShield - Urban Waterlogging & AI Groundwater Intelligence</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+  <!-- Top Alert / Helpline Ticker -->
+  <div class="bg-slate-900 border-b border-slate-800 text-xs py-2 px-4 flex justify-between items-center text-slate-300">
+    <div class="flex items-center gap-2 overflow-hidden truncate">
+      <span class="bg-blue-950 text-blue-400 border border-blue-800 text-[10px] uppercase font-semibold px-2 py-0.5 rounded">MUNICIPAL ALERT</span>
+      <span id="tickerText" class="truncate text-slate-400">Delhi-NCR / Faridabad Badarpur Border Drain Monitoring Active. Monsoon Risk Index Updated.</span>
+    </div>
+    <div class="hidden sm:flex items-center gap-3 text-[11px] font-medium shrink-0">
+      <a href="https://github.com/saloni-Dev63/jalshield" target="_blank" class="text-slate-400 hover:text-white transition flex items-center gap-1">
+        <i class="fa-brands fa-github text-sm"></i> GitHub Repository
+      </a>
+      <span class="text-slate-700">|</span>
+      <a href="tel:155304" class="text-blue-400 hover:underline flex items-center gap-1 font-semibold">
+        <i class="fa-solid fa-phone"></i> MCD Helpline: 155304
+      </a>
+    </div>
+  </div>
 
   <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+  <header class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <div class="bg-blue-600 p-2 rounded-lg text-white font-bold text-xl">🛡️</div>
+        <div class="bg-blue-600/20 border border-blue-500/30 text-blue-400 p-2 rounded-lg text-lg">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
         <div>
-          <h1 class="text-xl font-bold tracking-wide text-white">JalShield</h1>
-          <p class="text-xs text-slate-400">Urban Waterlogging & Septic Risk Assessor</p>
+          <h1 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+            JalShield <span class="text-[10px] bg-slate-800 text-slate-400 border border-slate-700 font-mono px-2 py-0.5 rounded">v2.4 Enterprise</span>
+          </h1>
+          <p class="text-xs text-slate-400" id="subTitle">Urban Hydrology & Excavation Hazard Intelligence System</p>
         </div>
       </div>
-      <span class="bg-blue-500/10 text-blue-400 text-xs px-3 py-1 rounded-full border border-blue-500/20 font-medium">
-        AWS Amplify Live
-      </span>
+
+      <!-- Controls & Quick Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="langBtn" onclick="toggleLanguage()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-globe text-slate-400"></i> <span id="langText">English / Hinglish</span>
+        </button>
+        <button onclick="openModal('reportModal')" class="bg-blue-600 hover:bg-blue-500 text-white border border-blue-500 text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-bullhorn"></i> <span id="btnReportText">Report Waterlogging</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10 flex-grow">
+  <!-- Main Grid Workspace -->
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
     
-    <section class="text-center space-y-4 max-w-2xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
-        Predict Waterlogging & Overflow Risks in Seconds
-      </h2>
-      <p class="text-slate-400 text-sm sm:text-base">
-        Assess localized flood vulnerability, shallow soil contamination, and septic overflow levels for urban monsoon resilience.
-      </p>
+    <!-- Hero Header -->
+    <section class="border-b border-slate-800/80 pb-4 flex flex-col md:flex-row justify-between md:items-end gap-4">
+      <div>
+        <h2 id="heroTitle" class="text-2xl font-bold text-slate-100">
+          Environmental Risk Analytics Dashboard
+        </h2>
+        <p id="heroDesc" class="text-xs text-slate-400 mt-1 max-w-2xl">
+          Automated vulnerability scoring for surface waterlogging, shallow soil blackwater contamination, and municipal hazard forecasting across Delhi-NCR.
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://github.com/saloni-Dev63/jalshield" target="_blank" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5">
+          <i class="fa-brands fa-github"></i> <span class="hidden sm:inline">View Code Repository</span>
+        </a>
+        <span class="inline-flex items-center gap-1.5 bg-emerald-950/50 text-emerald-400 border border-emerald-800/50 text-xs px-3 py-1.5 rounded-lg font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AWS Amplify Live
+        </span>
+      </div>
     </section>
 
-    <!-- Main Grid: Risk Assessor + Status Panel -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Main 3-Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- Interactive Calculator Card -->
-      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 shadow-xl space-y-5">
-        <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-          <span>📊</span> Assess Area Risk
+      <!-- Column 1: Config Parameters (4 Cols) -->
+      <div class="lg:col-span-4 bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-4">
+        <h3 id="panel1Header" class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2 border-b border-slate-800 pb-2.5">
+          <i class="fa-solid fa-sliders text-blue-400"></i> Region & Sensor Parameters
         </h3>
 
         <!-- Area Selector -->
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Select Region / Ward</label>
-          <select id="locationSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
+          <label id="lblArea" class="block text-xs font-medium text-slate-300 mb-1.5">Target Location / Ward</label>
+          <select id="locationSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
             <option value="faridabad-121013">Faridabad Sector 37 / Badarpur Border (PIN: 121013)</option>
             <option value="faridabad-121003">Faridabad NIT / Sector 15 (PIN: 121003)</option>
-            <option value="delhi-south">South Delhi / Okhla Region</option>
+            <option value="delhi-south">South Delhi / Okhla Drain Catchment Area</option>
           </select>
         </div>
 
-        <!-- Rainfall Intensity Slider -->
+        <!-- Rainfall Intensity -->
         <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-slate-300">Monsoon Rainfall Intensity</span>
-            <span id="rainVal" class="text-blue-400 font-bold">45 mm/hr</span>
+          <div class="flex justify-between text-xs mb-1.5">
+            <span id="lblRain" class="text-slate-300">Monsoon Rainfall Intensity</span>
+            <span id="rainVal" class="text-blue-400 font-mono font-semibold">45 mm/hr</span>
           </div>
-          <input type="range" id="rainInput" min="10" max="120" value="45" class="w-full accent-blue-500 cursor-pointer">
+          <input type="range" id="rainInput" min="10" max="120" value="45" class="w-full accent-blue-500 bg-slate-950 cursor-pointer">
         </div>
 
-        <!-- Drainage Capacity Slider -->
+        <!-- Drainage Desiltation -->
         <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-slate-300">Drainage Desiltation Level</span>
-            <span id="drainVal" class="text-emerald-400 font-bold">50% Clear</span>
+          <div class="flex justify-between text-xs mb-1.5">
+            <span id="lblDrain" class="text-slate-300">Drainage Channel Desiltation</span>
+            <span id="drainVal" class="text-emerald-400 font-mono font-semibold">50% Clear</span>
           </div>
-          <input type="range" id="drainInput" min="10" max="100" value="50" class="w-full accent-emerald-500 cursor-pointer">
+          <input type="range" id="drainInput" min="10" max="100" value="50" class="w-full accent-emerald-500 bg-slate-950 cursor-pointer">
         </div>
 
         <!-- Septic Age Select -->
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Avg Septic Tank Infrastructure Age</label>
-          <select id="septicAge" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
-            <option value="1">Under 5 Years (Low Leakage Risk)</option>
-            <option value="1.5" selected>5 – 15 Years (Moderate Leakage Risk)</option>
-            <option value="2.2">15+ Years (High Overflow Risk)</option>
+          <label id="lblSeptic" class="block text-xs font-medium text-slate-300 mb-1.5">Septic Infrastructure Condition</label>
+          <select id="septicAge" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+            <option value="1">Modern / Sealed Structure (&lt; 5 Years)</option>
+            <option value="1.5" selected>Aging / Unmaintained (5 – 15 Years)</option>
+            <option value="2.2">Critical Degradation & Leakage (15+ Years)</option>
           </select>
         </div>
 
-        <button id="calcBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg text-sm transition-all shadow-lg shadow-blue-600/20">
-          Calculate Vulnerability Index
+        <button id="calcBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg text-xs transition border border-blue-500 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-chart-pie"></i> <span id="btnText">Recalculate Risk Engine</span>
         </button>
+
+        <div class="bg-slate-950 border border-slate-800/80 rounded-lg p-3 text-xs flex justify-between items-center text-slate-400">
+          <div>
+            <p class="font-medium text-slate-300" id="helplineTitle">Emergency Flood Control</p>
+            <p class="text-[10px] text-slate-500" id="helplineDesc">Delhi-NCR Municipal Helpline</p>
+          </div>
+          <a href="tel:155304" class="bg-slate-900 border border-slate-700 hover:bg-slate-800 text-blue-400 px-2.5 py-1.5 rounded text-xs font-mono font-medium transition">
+            <i class="fa-solid fa-phone"></i> 155304
+          </a>
+        </div>
       </div>
 
-      <!-- Live Output Card -->
-      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 shadow-xl flex flex-col justify-between space-y-6">
+      <!-- Column 2: Analytics & Soil Visualizer (4 Cols) -->
+      <div class="lg:col-span-4 bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-4 flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-              <span>⚠️</span> Risk Score Output
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2.5 mb-3">
+            <h3 id="panel2Header" class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <i class="fa-solid fa-gauge-high text-amber-400"></i> Vulnerability Index
             </h3>
-            <span id="riskBadge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-bold">
+            <span id="riskBadge" class="bg-amber-950/60 text-amber-400 border border-amber-800/60 text-[10px] px-2.5 py-0.5 rounded font-mono font-semibold">
               MODERATE RISK
             </span>
           </div>
 
-          <!-- Gauge Display -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 text-center space-y-2">
-            <p class="text-xs text-slate-400 uppercase tracking-widest">Combined Vulnerability Score</p>
-            <div id="riskScore" class="text-5xl font-black text-amber-400">58<span class="text-lg font-normal text-slate-500">/100</span></div>
-            <p id="riskSummary" class="text-xs text-slate-300 pt-2">
-              Moderate surface water accumulation expected during heavy rain showers. Septic backflow risk is localized.
+          <!-- Risk Score Display -->
+          <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-4 text-center space-y-1">
+            <p id="lblGaugeTitle" class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Calculated Score</p>
+            <div id="riskScore" class="text-4xl font-bold font-mono text-amber-400">58<span class="text-sm font-normal text-slate-500">/100</span></div>
+            <p id="riskSummary" class="text-xs text-slate-300 leading-relaxed pt-1">
+              Moderate surface water accumulation expected during heavy rain. Septic backflow risk is localized.
             </p>
           </div>
         </div>
 
-        <!-- Shallow Dig Hazard (Groundwater Risk) -->
-        <div class="bg-rose-950/30 border border-rose-500/30 rounded-xl p-4 space-y-2">
-          <div class="flex items-center gap-2 text-rose-400 font-semibold text-xs uppercase tracking-wider">
-            <span>☣️</span> Shallow Dig Hazard (Groundwater Risk)
+        <!-- Soil Layer Visualizer -->
+        <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-300 font-medium flex items-center gap-1.5" id="lblDigHeader">
+              <i class="fa-solid fa-layer-group text-slate-400"></i> Soil & Contamination Layer
+            </span>
+            <span id="safeDepthBadge" class="text-[10px] text-amber-400 font-mono">Hazard Depth: 4–6 FT</span>
           </div>
-          <p id="digDepthAlert" class="text-xs text-slate-300 leading-relaxed">
-            Due to unmanaged runoff and septic seepage, excavating just <span class="font-bold text-amber-400">4 to 6 feet</span> deep risks exposing contaminated sewage seepage.
+
+          <!-- Visual Depth Bar -->
+          <div class="w-full bg-slate-900 border border-slate-800 rounded-lg h-5 flex overflow-hidden text-[9px] font-mono">
+            <div id="safeBar" class="bg-emerald-950/80 border-r border-emerald-700/50 text-emerald-400 flex items-center justify-center transition-all" style="width: 40%">SAFE</div>
+            <div id="hazardBar" class="bg-rose-950/80 text-rose-400 flex items-center justify-center transition-all" style="width: 60%">TOXIC SEEPAGE RISK</div>
+          </div>
+
+          <p id="digDepthAlert" class="text-xs text-slate-400 leading-relaxed pt-0.5">
+            Due to unmanaged runoff and septic seepage, excavating just <span class="font-semibold text-slate-200">4 to 6 feet</span> deep risks exposing toxic blackwater effluent.
           </p>
         </div>
 
         <!-- Action Advisory -->
-        <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-          <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Recommended Advisory</h4>
+        <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 space-y-1.5">
+          <h4 id="lblAdvisoryHeader" class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Recommended Standard Action</h4>
           <ul id="advisoryList" class="text-xs text-slate-400 space-y-1 list-disc pl-4">
-            <li>Clear secondary street gutters to improve runoff flow.</li>
-            <li>Issue preventive alerts to residents in low-elevation basements.</li>
+            <li>Clear secondary street gutters to improve runoff velocity.</li>
+            <li>Issue preventive alerts to residents in basement apartments.</li>
           </ul>
         </div>
+      </div>
+
+      <!-- Column 3: AI Assistant & Feedback Access (4 Cols) -->
+      <div class="lg:col-span-4 bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between h-[520px]">
+        
+        <!-- Header -->
+        <div class="border-b border-slate-800 pb-2.5 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded bg-blue-950 border border-blue-800 flex items-center justify-center text-blue-400 text-xs">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-slate-200">JalBot AI Assistant</h3>
+              <p class="text-[10px] text-slate-500" id="lblBotSub">Hydrology & Safety Agent</p>
+            </div>
+          </div>
+          <button onclick="openModal('feedbackModal')" class="text-[11px] text-slate-400 hover:text-white transition flex items-center gap-1">
+            <i class="fa-solid fa-comment-dots"></i> <span id="lblFeedbackBtn">Feedback</span>
+          </button>
+        </div>
+
+        <!-- Chat History -->
+        <div id="chatHistory" class="flex-grow overflow-y-auto my-2 space-y-2 pr-1 text-xs">
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-300 space-y-1">
+            <p class="font-semibold text-blue-400 text-[10px]"><i class="fa-solid fa-robot"></i> JalBot AI</p>
+            <p id="botWelcome">Hello! I am your urban hydrology advisor. Ask me anything about local waterlogging, drain maintenance, or septic excavation safety in Delhi-NCR.</p>
+          </div>
+        </div>
+
+        <!-- Quick Prompts -->
+        <div class="grid grid-cols-2 gap-1.5 mb-2">
+          <button onclick="askQuickPrompt('Is digging safe in this sector?')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-[10px] p-2 rounded text-left truncate transition">
+            💡 Safe to dig trench?
+          </button>
+          <button onclick="askQuickPrompt('How do we fix septic leaks?')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-[10px] p-2 rounded text-left truncate transition">
+            💡 Septic overflow solution?
+          </button>
+        </div>
+
+        <!-- Chat Form -->
+        <form id="chatForm" class="flex gap-2">
+          <input type="text" id="userInput" placeholder="Type in English or Hinglish..." class="flex-grow bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+          <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg text-xs font-medium transition">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+
       </div>
 
     </div>
   </main>
 
+  <!-- Citizen Reporting Modal -->
+  <div id="reportModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Report Local Waterlogging / Sewer Issue
+        </h3>
+        <button onclick="closeModal('reportModal')" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="reportForm" onsubmit="submitReport(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Issue Category</label>
+          <select id="reportCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">
+            <option>Severe Road Flooding / Waterlogging</option>
+            <option>Open Sewer / Septic Overflow Leakage</option>
+            <option>Blocked Secondary Drainage Channel</option>
+            <option>Contaminated Shallow Well / Pump Water</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Pincode / Landmark Details</label>
+          <input type="text" id="reportLocation" required placeholder="e.g. Sector 37 Main Market, Faridabad (PIN 121013)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Issue Description</label>
+          <textarea id="reportDesc" rows="3" required placeholder="Describe severity, standing water depth, and duration..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-lg transition">
+          Submit Citizen Report
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-comment-dots text-blue-400"></i> Platform Feedback
+        </h3>
+        <button onclick="closeModal('feedbackModal')" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="feedbackForm" onsubmit="submitFeedback(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Rating</label>
+          <select id="fbRating" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">
+            <option>⭐⭐⭐⭐⭐ (5/5) - Very Helpful</option>
+            <option>⭐⭐⭐⭐ (4/5) - Good</option>
+            <option>⭐⭐⭐ (3/5) - Average</option>
+            <option>⭐⭐ (2/5) - Needs Improvement</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Comments / Feature Suggestions</label>
+          <textarea id="fbText" rows="3" required placeholder="Tell us how we can make JalShield better..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-lg transition">
+          Send Feedback
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="border-t border-slate-800 bg-slate-950 py-4 text-center text-xs text-slate-500">
-    Built for <span class="text-slate-300 font-medium">AWS Bharat Builds Hackathon 2026</span> | Powered by AWS Amplify & Tailwind CSS
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <p>Built for <span class="text-slate-300 font-medium">AWS Bharat Builds Hackathon 2026</span> | Deployed on AWS Amplify</p>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/saloni-Dev63/jalshield" target="_blank" class="text-slate-400 hover:text-white transition">
+          <i class="fa-brands fa-github"></i> github.com/saloni-Dev63/jalshield
+        </a>
+      </div>
+    </div>
   </footer>
 
-  <!-- Calculator Script -->
+  <!-- Embedded Logic Engine -->
   <script>
+    let currentLang = 'english';
+    let currentScore = 58;
+
     const rainInput = document.getElementById('rainInput');
     const drainInput = document.getElementById('drainInput');
     const septicAge = document.getElementById('septicAge');
@@ -151,6 +343,12 @@
     const riskSummary = document.getElementById('riskSummary');
     const digDepthAlert = document.getElementById('digDepthAlert');
     const advisoryList = document.getElementById('advisoryList');
+    const safeBar = document.getElementById('safeBar');
+    const hazardBar = document.getElementById('hazardBar');
+    const safeDepthBadge = document.getElementById('safeDepthBadge');
+    const chatHistory = document.getElementById('chatHistory');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
 
     rainInput.addEventListener('input', () => rainVal.textContent = `${rainInput.value} mm/hr`);
     drainInput.addEventListener('input', () => drainVal.textContent = `${drainInput.value}% Clear`);
@@ -161,34 +359,210 @@
       const ageMultiplier = parseFloat(septicAge.value);
 
       let rawScore = ((rain * 0.6) + ((100 - drain) * 0.4)) * (ageMultiplier * 0.7);
-      let score = Math.min(Math.max(Math.round(rawScore), 12), 98);
+      currentScore = Math.min(Math.max(Math.round(rawScore), 12), 98);
 
-      riskScore.innerHTML = `${score}<span class="text-lg font-normal text-slate-500">/100</span>`;
+      riskScore.innerHTML = `${currentScore}<span class="text-sm font-normal text-slate-500">/100</span>`;
 
-      if (score < 40) {
-        riskScore.className = "text-5xl font-black text-emerald-400";
-        riskBadge.className = "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1 rounded-full font-bold";
-        riskBadge.textContent = "LOW RISK";
-        riskSummary.textContent = "Drainage capacity is adequate. Minimal flood or septic contamination risk detected.";
-        digDepthAlert.innerHTML = "Shallow excavation safe. Contaminated groundwater table isolated beyond <span class='font-bold text-emerald-400'>12+ feet</span> depth.";
-        advisoryList.innerHTML = "<li>Routine maintenance of primary storm drains.</li><li>No immediate emergency actions required.</li>";
-      } else if (score < 70) {
-        riskScore.className = "text-5xl font-black text-amber-400";
-        riskBadge.className = "bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-bold";
-        riskBadge.textContent = "MODERATE RISK";
-        riskSummary.textContent = "Moderate water accumulation expected during heavy showers. High probability of localized septic leakage.";
-        digDepthAlert.innerHTML = "Due to unmanaged runoff and septic seepage, excavating just <span class='font-bold text-amber-400'>4 to 6 feet</span> deep risks exposing contaminated sewage seepage.";
-        advisoryList.innerHTML = "<li>Clear secondary street gutters to improve runoff flow.</li><li>Issue preventive alerts to residents in low-elevation basements.</li>";
+      if (currentScore < 40) {
+        riskScore.className = "text-4xl font-bold font-mono text-emerald-400";
+        riskBadge.className = "bg-emerald-950/60 text-emerald-400 border border-emerald-800/60 text-[10px] px-2.5 py-0.5 rounded font-mono font-semibold";
+        riskBadge.textContent = currentLang === 'hinglish' ? "कम जोखिम (LOW)" : "LOW RISK";
+        
+        safeBar.style.width = "80%";
+        hazardBar.style.width = "20%";
+        safeDepthBadge.textContent = "Safe Depth: 12+ FT";
+        
+        riskSummary.textContent = currentLang === 'hinglish' 
+          ? "Drainage capacity acchi hai. Surface flood ya septic contamination risk bohot kam hai."
+          : "Drainage capacity is adequate. Minimal flood or septic contamination risk detected.";
+          
+        digDepthAlert.innerHTML = currentLang === 'hinglish'
+          ? "Gaddha khodna safe hai. Contaminated groundwater layer <span class='font-semibold text-slate-200'>12 feet se zyada</span> gehre sthar par hai."
+          : "Shallow excavation safe. Contaminated groundwater table isolated beyond <span class='font-semibold text-slate-200'>12+ feet</span> depth.";
+          
+        advisoryList.innerHTML = currentLang === 'hinglish'
+          ? "<li>Primary storm drains ki safai banaye rakhein.</li><li>Immediate emergency action ki zaroorat nahi hai.</li>"
+          : "<li>Routine maintenance of primary storm drains.</li><li>No immediate emergency actions required.</li>";
+
+      } else if (currentScore < 70) {
+        riskScore.className = "text-4xl font-bold font-mono text-amber-400";
+        riskBadge.className = "bg-amber-950/60 text-amber-400 border border-amber-800/60 text-[10px] px-2.5 py-0.5 rounded font-mono font-semibold";
+        riskBadge.textContent = currentLang === 'hinglish' ? "मध्यम जोखिम (MODERATE)" : "MODERATE RISK";
+        
+        safeBar.style.width = "40%";
+        hazardBar.style.width = "60%";
+        safeDepthBadge.textContent = "Hazard Depth: 4–6 FT";
+
+        riskSummary.textContent = currentLang === 'hinglish'
+          ? "Sadak par paani bharne ka khatra hai. Septic backflow risk localized ilakon mein ho sakta hai."
+          : "Moderate surface water accumulation expected during heavy rain. Septic backflow risk is localized.";
+          
+        digDepthAlert.innerHTML = currentLang === 'hinglish'
+          ? "Septic seepage ke karan, <span class='font-semibold text-slate-200'>4 se 6 feet</span> gehra gaddha khodne par ganda sewer paani nikal sakta hai."
+          : "Due to unmanaged runoff and septic seepage, excavating just <span class='font-semibold text-slate-200'>4 to 6 feet</span> deep risks exposing toxic blackwater effluent.";
+          
+        advisoryList.innerHTML = currentLang === 'hinglish'
+          ? "<li>Secondary street gutters ki desiltation karein.</li><li>Basement apartments waalon ko alert karein.</li>"
+          : "<li>Clear secondary street gutters to improve runoff velocity.</li><li>Issue preventive alerts to residents in basement apartments.</li>";
+
       } else {
-        riskScore.className = "text-5xl font-black text-rose-500";
-        riskBadge.className = "bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs px-3 py-1 rounded-full font-bold";
-        riskBadge.textContent = "HIGH RISK / CRITICAL";
-        riskSummary.textContent = "Severe waterlogging hazard! High likelihood of urban flooding and septic wastewater contamination.";
-        digDepthAlert.innerHTML = "<strong>CRITICAL:</strong> Ground saturated with septic effluent! Digging just <span class='font-bold text-rose-400'>2 to 3 feet</span> will immediately yield highly contaminated wastewater.";
-        advisoryList.innerHTML = "<li>Deploy mobile de-watering pumps immediately.</li><li>Notify municipal health ward for water contamination prevention.</li>";
+        riskScore.className = "text-4xl font-bold font-mono text-rose-500";
+        riskBadge.className = "bg-rose-950/60 text-rose-400 border border-rose-800/60 text-[10px] px-2.5 py-0.5 rounded font-mono font-semibold";
+        riskBadge.textContent = currentLang === 'hinglish' ? "गंभीर खतरा (CRITICAL)" : "CRITICAL RISK";
+        
+        safeBar.style.width = "20%";
+        hazardBar.style.width = "80%";
+        safeDepthBadge.textContent = "CRITICAL HAZARD: 2 FT";
+
+        riskSummary.textContent = currentLang === 'hinglish'
+          ? "Severe waterlogging hazard! Septic wastewater contamination ka bada risk hai."
+          : "Severe waterlogging hazard! High likelihood of urban flooding and septic wastewater contamination.";
+          
+        digDepthAlert.innerHTML = currentLang === 'hinglish'
+          ? "<strong>CRITICAL DANGER:</strong> Zameen septic wastewater se saturated hai! Sirf <span class='font-semibold text-rose-400'>2 se 3 feet</span> khodne par toxic sewer paani niklega."
+          : "<strong>CRITICAL HAZARD:</strong> Ground saturated with septic effluent! Digging just <span class='font-semibold text-rose-400'>2 to 3 feet</span> will yield highly contaminated wastewater.";
+          
+        advisoryList.innerHTML = currentLang === 'hinglish'
+          ? "<li>Mobile de-watering pumps turant deploy karein.</li><li>Municipal health department ko soochit karein.</li>"
+          : "<li>Deploy mobile de-watering pumps immediately.</li><li>Notify municipal health ward for water contamination prevention.</li>";
       }
     }
 
     calcBtn.addEventListener('click', calculateRisk);
+
+    function toggleLanguage() {
+      if (currentLang === 'english') {
+        currentLang = 'hinglish';
+        document.getElementById('langText').textContent = "English Mode";
+        document.getElementById('subTitle').textContent = "Urban Hydrology & Excavation Hazard Intelligence System";
+        document.getElementById('heroTitle').textContent = "Environmental Risk Analytics Dashboard";
+        document.getElementById('heroDesc').textContent = "Surface waterlogging, shallow blackwater contamination, aur municipal hazard prediction ka automated system.";
+        document.getElementById('panel1Header').innerHTML = '<i class="fa-solid fa-sliders text-blue-400"></i> Region & Sensor Parameters';
+        document.getElementById('lblArea').textContent = "Target Location / Ward";
+        document.getElementById('lblRain').textContent = "Monsoon Rainfall Intensity";
+        document.getElementById('lblDrain').textContent = "Drainage Channel Desiltation";
+        document.getElementById('lblSeptic').textContent = "Septic Infrastructure Condition";
+        document.getElementById('btnText').textContent = "Recalculate Risk Engine";
+        document.getElementById('panel2Header').innerHTML = '<i class="fa-solid fa-gauge-high text-amber-400"></i> Vulnerability Index';
+        document.getElementById('lblGaugeTitle').textContent = "Calculated Score";
+        document.getElementById('lblDigHeader').innerHTML = '<i class="fa-solid fa-layer-group text-slate-400"></i> Soil & Contamination Layer';
+        document.getElementById('lblAdvisoryHeader').textContent = "Recommended Standard Action";
+        document.getElementById('lblBotSub').textContent = "Hydrology & Safety Agent";
+        document.getElementById('btnReportText').textContent = "Report Waterlogging";
+        document.getElementById('botWelcome').textContent = "Namaste! Main aapka urban hydrology advisor hu. Aap English ya Hinglish mein drain block, sewer leak, ya digging safety ke baare mein pooch sakte hain.";
+        document.getElementById('userInput').placeholder = "Type in English or Hinglish...";
+      } else {
+        currentLang = 'english';
+        document.getElementById('langText').textContent = "English / Hinglish";
+        document.getElementById('subTitle').textContent = "Urban Hydrology & Excavation Hazard Intelligence System";
+        document.getElementById('heroTitle').textContent = "Environmental Risk Analytics Dashboard";
+        document.getElementById('heroDesc').textContent = "Automated vulnerability scoring for surface waterlogging, shallow soil blackwater contamination, and municipal hazard forecasting across Delhi-NCR.";
+        document.getElementById('panel1Header').innerHTML = '<i class="fa-solid fa-sliders text-blue-400"></i> Region & Sensor Parameters';
+        document.getElementById('lblArea').textContent = "Target Location / Ward";
+        document.getElementById('lblRain').textContent = "Monsoon Rainfall Intensity";
+        document.getElementById('lblDrain').textContent = "Drainage Channel Desiltation";
+        document.getElementById('lblSeptic').textContent = "Septic Infrastructure Condition";
+        document.getElementById('btnText').textContent = "Recalculate Risk Engine";
+        document.getElementById('panel2Header').innerHTML = '<i class="fa-solid fa-gauge-high text-amber-400"></i> Vulnerability Index';
+        document.getElementById('lblGaugeTitle').textContent = "Calculated Score";
+        document.getElementById('lblDigHeader').innerHTML = '<i class="fa-solid fa-layer-group text-slate-400"></i> Soil & Contamination Layer';
+        document.getElementById('lblAdvisoryHeader').textContent = "Recommended Standard Action";
+        document.getElementById('lblBotSub').textContent = "Hydrology & Safety Agent";
+        document.getElementById('btnReportText').textContent = "Report Waterlogging";
+        document.getElementById('botWelcome').textContent = "Hello! I am your urban hydrology advisor. Ask me anything about local waterlogging, drain maintenance, or septic excavation safety in Delhi-NCR.";
+        document.getElementById('userInput').placeholder = "Type in English or Hinglish...";
+      }
+      calculateRisk();
+    }
+
+    function getBotResponse(query) {
+      const q = query.toLowerCase();
+      if (q.includes('dig') || q.includes('gaddha') || q.includes('khod') || q.includes('trench')) {
+        if (currentScore >= 70) {
+          return currentLang === 'hinglish'
+            ? `⚠️ <strong>CRITICAL DANGER:</strong> Score ${currentScore}/100 hai. 2–3 feet se gehra gaddha na khodein, soil mein toxic blackwater saturation hai!`
+            : `⚠️ <strong>CRITICAL DANGER:</strong> Risk score is ${currentScore}/100. Excavating deeper than 2–3 feet will breach saturated toxic blackwater layers.`;
+        } else if (currentScore >= 40) {
+          return currentLang === 'hinglish'
+            ? `⚡ <strong>CAUTION:</strong> Risk score ${currentScore}/100 hai. 4 feet se zyada digging karne se pehle soil seepage test karayein.`
+            : `⚡ <strong>CAUTION:</strong> Risk score is ${currentScore}/100. Avoid digging beyond 4 feet near unsealed septic tanks.`;
+        } else {
+          return currentLang === 'hinglish'
+            ? `✅ Groundwater table stable hai. 8-10 feet tak normal digging safe hai.`
+            : `✅ Groundwater table is stable. Shallow digging up to 8–10 feet is safe under current low-risk conditions.`;
+        }
+      } else if (q.includes('septic') || q.includes('overflow') || q.includes('leak') || q.includes('sewer')) {
+        return currentLang === 'hinglish'
+          ? `🚰 Septic tank leakage rokein ke liye annual desiltation karayein aur tank baffles tightly seal rakhein.`
+          : `🚰 Prevent septic backflow by ensuring annual desiltation of secondary street drains and inspecting tank seals.`;
+      } else if (q.includes('faridabad') || q.includes('delhi') || q.includes('helpline')) {
+        return currentLang === 'hinglish'
+          ? `📍 Municipal Flood Control Room helpline number <strong>155304</strong> par contact karein.`
+          : `📍 For emergency waterlogging issues in Delhi/Faridabad, call the MCD Control Room at <strong>155304</strong>.`;
+      } else {
+        return currentLang === 'hinglish'
+          ? `🤖 Current metrics (Score: ${currentScore}/100) ke aadhar par secondary drains ki desiltation aur basement pumps active rakhein.`
+          : `🤖 Based on current risk metrics (Score: ${currentScore}/100), ensure primary drainage channels are clear and de-watering pumps are ready.`;
+      }
+    }
+
+    function appendMessage(sender, text, isBot = false) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = isBot 
+        ? "bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-300 space-y-1" 
+        : "bg-blue-950/60 border border-blue-800/60 rounded-lg p-2.5 text-blue-100 space-y-1 text-right";
+      
+      msgDiv.innerHTML = `
+        <p class="font-semibold ${isBot ? 'text-blue-400' : 'text-blue-300'} text-[10px]">
+          ${isBot ? '<i class="fa-solid fa-robot"></i> JalBot AI' : '<i class="fa-solid fa-user"></i> You'}
+        </p>
+        <p>${text}</p>
+      `;
+      chatHistory.appendChild(msgDiv);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+      
+      appendMessage('You', text, false);
+      userInput.value = '';
+
+      setTimeout(() => {
+        const response = getBotResponse(text);
+        appendMessage('JalBot AI', response, true);
+      }, 400);
+    });
+
+    function askQuickPrompt(promptText) {
+      userInput.value = promptText;
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function submitReport(e) {
+      e.preventDefault();
+      const ticketId = 'JAL-' + Math.floor(1000 + Math.random() * 9000);
+      alert(`Report Submitted Successfully!\nYour Tracking Ticket ID: #${ticketId}\nLocation: ${document.getElementById('reportLocation').value}`);
+      closeModal('reportModal');
+      document.getElementById('reportForm').reset();
+    }
+
+    function submitFeedback(e) {
+      e.preventDefault();
+      alert('Thank you for your feedback! Your inputs help improve JalShield.');
+      closeModal('feedbackModal');
+      document.getElementById('feedbackForm').reset();
+    }
   </script>
 </body>
+</html>
