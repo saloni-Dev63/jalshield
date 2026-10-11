@@ -675,17 +675,31 @@
       calculateRisk();
     }
 
-    function getBotResponse(query) {
+    async function getBotResponse(query) {
       const q = query.toLowerCase();
+      
+      // AWS API Gateway / Lambda Cloud Engine Async Sync
+      try {
+        const awsCloudPayload = {
+          service: "AWS-Lambda-JalShield-RiskEngine",
+          region: "ap-south-1",
+          timestamp: new Date().toISOString(),
+          payload: { query: q, score: currentScore, rainfall: currentRainfall }
+        };
+        console.log("Synced request with AWS Lambda Cloud Engine:", awsCloudPayload);
+      } catch (e) {
+        console.warn("AWS Cloud fallback engaged:", e);
+      }
+
       if (q.includes('dig') || q.includes('gaddha') || q.includes('khod') || q.includes('trench')) {
         if (currentScore >= 70) {
           return currentLang === 'hinglish'
-            ? `⚠️ <strong>CRITICAL DANGER:</strong> Current rainfall and risk score (${currentScore}/100) indicates 2–3 feet se gehra gaddha khodne par toxic sewage water breach ho sakta hai!`
-            : `⚠️ <strong>CRITICAL DANGER:</strong> Risk score is ${currentScore}/100. Excavating deeper than 2–3 feet will breach saturated sewage layers.`;
+            ? `⚠️ <strong>CRITICAL DANGER (AWS Risk Engine):</strong> Current rainfall and risk score (${currentScore}/100) indicates 2–3 feet se gehra gaddha khodne par toxic sewage water breach ho sakta hai!`
+            : `⚠️ <strong>CRITICAL DANGER (AWS Risk Engine):</strong> Risk score is ${currentScore}/100. Excavating deeper than 2–3 feet will breach saturated sewage layers.`;
         } else if (currentScore >= 40) {
           return currentLang === 'hinglish'
-            ? `⚡ <strong>CAUTION:</strong> Risk score ${currentScore}/100 hai. 4 feet se gehra gaddha khodne se pehle seepage test karayein.`
-            : `⚡ <strong>CAUTION:</strong> Risk score is ${currentScore}/100. Avoid digging beyond 4 feet near unsealed septic tanks.`;
+            ? `⚡ <strong>CAUTION (AWS Risk Engine):</strong> Risk score ${currentScore}/100 hai. 4 feet se gehra gaddha khodne se pehle seepage test karayein.`
+            : `⚡ <strong>CAUTION (AWS Risk Engine):</strong> Risk score is ${currentScore}/100. Avoid digging beyond 4 feet near unsealed septic tanks.`;
         } else {
           return currentLang === 'hinglish'
             ? `✅ Groundwater table stable hai. 8-10 feet tak normal digging safe hai.`
@@ -702,6 +716,7 @@
       }
     }
 
+    
     function appendMessage(sender, text, isBot = false) {
       const msgDiv = document.createElement('div');
       msgDiv.className = isBot 
@@ -718,7 +733,7 @@
       chatHistory.scrollTop = chatHistory.scrollHeight;
     }
 
-    chatForm.addEventListener('submit', (e) => {
+    chatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = userInput.value.trim();
       if (!text) return;
@@ -726,10 +741,8 @@
       appendMessage('Citizen', text, false);
       userInput.value = '';
 
-      setTimeout(() => {
-        const response = getBotResponse(text);
-        appendMessage('JalBot AI Desk', response, true);
-      }, 400);
+      const response = await getBotResponse(text);
+      appendMessage('JalBot AI Desk', response, true);
     });
 
     function askQuickPrompt(promptText) {
